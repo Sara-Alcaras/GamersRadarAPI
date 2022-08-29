@@ -5,8 +5,7 @@ namespace GamersRadarAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CadastrosController : ControllerBase
+    public class PublicacoesController : ControllerBase
     {
-        // Criar string de conex]ao com banco de dados
     }
 }
