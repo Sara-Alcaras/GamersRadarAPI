@@ -32,3 +32,5 @@ C:\Users\Sara\Desktop\Curso Edusyn\API\GamersRadarAPI\GamersRadarAPI\obj\Debug\n
 C:\Users\Sara\Desktop\Curso Edusyn\API\GamersRadarAPI\GamersRadarAPI\obj\Debug\net5.0\ref\GamersRadarAPI.dll
 C:\Users\Sara\Desktop\Curso Edusyn\API\GamersRadarAPI\GamersRadarAPI\obj\Debug\net5.0\GamersRadarAPI.pdb
 C:\Users\Sara\Desktop\Curso Edusyn\API\GamersRadarAPI\GamersRadarAPI\obj\Debug\net5.0\GamersRadarAPI.genruntimeconfig.cache
+C:\Users\Sara\Desktop\Curso Edusyn\API\GamersRadarAPI\GamersRadarAPI\bin\Debug\net5.0\GamersRadarAPI.xml
+C:\Users\Sara\Desktop\Curso Edusyn\API\GamersRadarAPI\GamersRadarAPI\obj\Debug\net5.0\GamersRadarAPI.xml

@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>GamersRadarAPI</name>
+    </assembly>
+    <members>
+        <member name="M:GamersRadarAPI.Controllers.PerfilsController.Cadastrar(GamersRadarAPI.Models.Perfil)">
+            <summary>
+            Cadastra perfil na aplicação
+            </summary>
+            <param name="perfil">Dados do perfil</param>
+            <returns>Dados do perfil cadastrado</returns>
+            <remarks>
+            Exemplo de insersão do campo FOTO:
+            "VEVTVEUgRk9UTw=="
+            Sempre inserir em formato Base64, pois o .Net converte para VarBinary(tipo que está no banco)
+            </remarks>
+        </member>
+        <member name="M:GamersRadarAPI.Controllers.PerfilsController.Listar">
+            <summary>
+            Lista todos os perfils cadastrados na aplicação
+            </summary>
+            <returns>Lista de perfils</returns>
+        </member>
+        <member name="M:GamersRadarAPI.Controllers.PerfilsController.Alterar(System.Int32,GamersRadarAPI.Models.Perfil)">
+            <summary>
+            Alterar os dados de um perfil
+            </summary>
+            <param name="perfil">Todos as informações do perfil</param>
+            <param name="id">Id do perfil</param>
+            <returns>Perfil alterado</returns>
+        </member>
+        <member name="M:GamersRadarAPI.Controllers.UsuariosController.Cadastrar(GamersRadarAPI.Models.Usuario)">
+            <summary>
+            Cadastra usuários na aplicação
+            </summary>
+            <param name="usuario">Dados do usuário</param>
+            <returns>Dados do usuário cadastrado</returns>
+        </member>
+        <member name="M:GamersRadarAPI.Controllers.UsuariosController.Listar">
+            <summary>
+            Lista todos os usuários cadastrados na aplicação
+            </summary>
+            <returns>Lista de usuários</returns>
+        </member>
+        <member name="M:GamersRadarAPI.Controllers.UsuariosController.Alterar(System.Int32,GamersRadarAPI.Models.Usuario)">
+            <summary>
+            Alterar os dados de um usuários
+            </summary>
+            <param name="usuario">Todos as informações do usuário</param>
+            <param name="id">Id do usuário</param>
+            <returns>Usuário alterado</returns>
+        </member>
+    </members>
+</doc>
