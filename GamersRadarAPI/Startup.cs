@@ -9,7 +9,9 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace GamersRadarAPI
@@ -30,7 +32,28 @@ namespace GamersRadarAPI
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "GamersRadarAPI", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { 
+                    Title = "GamersRadarAPI", 
+                    Version = "v1",
+                    Description = "API desenvolvida durante o programa Entry Point BRQ!",
+                    TermsOfService = new Uri("https://GamersRadar.com"),
+                    Contact = new OpenApiContact
+                    {
+                        Name = "Sara Alcaras",
+                        Url = new Uri("https://github.com/Sara-Alcaras")
+                    },
+                    License = new OpenApiLicense
+                    {
+                        Name = "EduSync",
+                        Url = new Uri("https://edusync.twygoead.com/dashboard_students")
+                    }
+                });
+
+                // Adicionar configurações extras da documentação, para ler os XMLs
+                var xmlArquivo = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                
+                // Combina os arquivos gerados
+                c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlArquivo));
             });
         }
 

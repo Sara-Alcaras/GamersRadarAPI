@@ -2,6 +2,11 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+	  <RootNamespace>GamersRadarAPI</RootNamespace>
+	  <!-- Gerar documento-->
+	  <GenerateDocumentationFile>True</GenerateDocumentationFile>
+	  <!--Não gerar alerta-->
+	  <NoWarn>$(NoWarn);1591</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
