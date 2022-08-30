@@ -14,7 +14,6 @@ namespace GamersRadarAPI.Models
         public string Descricao { get; set; }
         public byte[] ImagemAnexo { get; set; }
 
-        [Required(ErrorMessage = "Informe uma data e hora")]
         public DateTime DataHora { get; set; }
 
         [Required(ErrorMessage = "Informe o ID do Perfil")]

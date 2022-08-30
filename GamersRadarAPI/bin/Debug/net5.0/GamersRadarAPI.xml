@@ -4,6 +4,53 @@
         <name>GamersRadarAPI</name>
     </assembly>
     <members>
+        <member name="M:GamersRadarAPI.Controllers.CategoriasController.Cadastrar(GamersRadarAPI.Models.Categoria)">
+            <summary>
+            Cadastra uma categoria
+            </summary>
+            <param name = "categoria" > Dados da categoria</param>
+        </member>
+        <member name="M:GamersRadarAPI.Controllers.CategoriasController.Listar">
+            <summary>
+            Lista todos as categorias cadastrados na aplicação
+            </summary>
+            <returns>Lista de categorias</returns>
+        </member>
+        <member name="M:GamersRadarAPI.Controllers.CategoriasController.Alterar(System.Int32,GamersRadarAPI.Models.Categoria)">
+            <summary>
+            Alterar os dados de uma categoria
+            </summary>
+            <param name="categoria">Todos as informações da categoria</param>
+            <param name="id">Id da categoria</param>
+            <returns>Categoria alterada</returns>
+        </member>
+        <member name="M:GamersRadarAPI.Controllers.ComentariosController.Cadastrar(GamersRadarAPI.Models.Comentarios)">
+            <summary>
+            Cadastra um comentario
+            </summary>
+            <param name = "comentario" > Dados do comentario</param>
+        </member>
+        <member name="M:GamersRadarAPI.Controllers.ComentariosController.Listar">
+            <summary>
+            Lista todos os comentarios cadastrados na aplicação
+            </summary>
+            <returns>Lista de comentarios</returns>
+        </member>
+        <member name="M:GamersRadarAPI.Controllers.ComentariosController.Alterar(System.Int32,GamersRadarAPI.Models.Comentarios)">
+            <summary>
+            Alterar os dados de um comentario
+            </summary>
+            <param name="comentario">Todos as informações de um comentario</param>
+            <param name="id">Id da cacomentario</param>
+            <returns>Comentario alterada</returns>
+        </member>
+        <member name="M:GamersRadarAPI.Controllers.ComentariosController.Deletar(System.Int32)">
+            <summary>
+            Deleta todos dados de um comentario
+            </summary>
+            <param name="id">Id do cacomentario</param>
+            <returns>Mensagem de exclusão</returns>
+        </member>
         <member name="M:GamersRadarAPI.Controllers.PerfilsController.Cadastrar(GamersRadarAPI.Models.Perfil)">
             <summary>
             Cadastra perfil na aplicação
@@ -13,7 +60,7 @@
             <remarks>
             Exemplo de insersão do campo FOTO:
             "VEVTVEUgRk9UTw=="
-            Sempre inserir em formato Base64, pois o .Net converte para VarBinary(tipo que está no banco)
+            Sempre inserir em formato Base64, pois o .Net converte para VarBinary(tipo que está cadastrado no banco)
             </remarks>
         </member>
         <member name="M:GamersRadarAPI.Controllers.PerfilsController.Listar">
@@ -26,9 +73,44 @@
             <summary>
             Alterar os dados de um perfil
             </summary>
+            <remarks>
+            Exemplo de insersão do campo FOTO:
+            "VEVTVEUgRk9UTw=="
+            Sempre inserir em formato Base64, pois o .Net converte para VarBinary(tipo que está cadastrado no banco)
+            </remarks>
             <param name="perfil">Todos as informações do perfil</param>
             <param name="id">Id do perfil</param>
             <returns>Perfil alterado</returns>
+        </member>
+        <member name="M:GamersRadarAPI.Controllers.PublicacoesController.Cadastrar(GamersRadarAPI.Models.Publicacao)">
+            <summary>
+            Cadastra uma publicação
+            </summary>
+            <remarks>
+            Exemplo de insersão do campo ImagemAnexo:
+            "VEVTVEUgRk9UTw=="
+            Sempre inserir em formato Base64, pois o.Net converte para VarBinary(tipo que está cadastrado no banco)
+            </remarks>
+            <param name = "publicacao" > Dados da publicação</param>
+        </member>
+        <member name="M:GamersRadarAPI.Controllers.PublicacoesController.Listar">
+            <summary>
+            Lista todos as publicações cadastrados na aplicação
+            </summary>
+            <returns>Lista de publicações</returns>
+        </member>
+        <member name="M:GamersRadarAPI.Controllers.PublicacoesController.Alterar(System.Int32,GamersRadarAPI.Models.Publicacao)">
+            <summary>
+            Alterar os dados de uma publicação
+            </summary>
+            <remarks>
+            Exemplo de insersão do campo ImagemAnexo:
+            "VEVTVEUgRk9UTw=="
+            Sempre inserir em formato Base64, pois o.Net converte para VarBinary(tipo que está cadastrado no banco)
+            </remarks>
+            <param name="publicacao">Todos as informações da publicação</param>
+            <param name="id">Id da publicação</param>
+            <returns>Publicação alterada</returns>
         </member>
         <member name="M:GamersRadarAPI.Controllers.UsuariosController.Cadastrar(GamersRadarAPI.Models.Usuario)">
             <summary>
