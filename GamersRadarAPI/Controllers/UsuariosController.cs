@@ -136,7 +136,7 @@ namespace GamersRadarAPI.Controllers
         /// <param name="usuario">Todos as informações do usuário</param>
         /// <param name="id">Id do usuário</param>
         /// <returns>Usuário alterado</returns>
-        [HttpPut("/{id}")]
+        [HttpPut("{id}")]
         // O método alterar tem como parametro o id do usuário
         public IActionResult Alterar(int id, Usuario usuario)
         {
