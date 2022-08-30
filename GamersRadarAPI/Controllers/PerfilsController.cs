@@ -25,7 +25,7 @@ namespace GamersRadarAPI.Controllers
         /// <remarks>
         /// Exemplo de insersão do campo FOTO:
         /// "VEVTVEUgRk9UTw=="
-        /// Sempre inserir em formato Base64, pois o .Net converte para VarBinary(tipo que está no banco)
+        /// Sempre inserir em formato Base64, pois o .Net converte para VarBinary(tipo que está cadastrado no banco)
         /// </remarks>
         [HttpPost]
 
@@ -95,7 +95,7 @@ namespace GamersRadarAPI.Controllers
                     // Abre conexão com o banco
                     conexao.Open();
 
-                    // Seleciona todos os usuários no banco de dados
+                    // Seleciona todos os perfils no banco de dados
                     string consulta = "SELECT * FROM Perfil";
 
                     using (SqlCommand cmd = new SqlCommand(consulta, conexao))
@@ -111,9 +111,9 @@ namespace GamersRadarAPI.Controllers
                                 {
                                     Id = (int)reader[0],
                                     Biografia = (string)reader[1],
-                                    //Foto = (byte[])reader[2],
+                                    Foto = (byte[])reader[2],
                                     JogosInteresse = (string)reader[3],
-                                    UsuariosId = (int)reader[3],
+                                    UsuariosId = (int)reader[4],
                                 });
                             }
                         }
@@ -139,10 +139,16 @@ namespace GamersRadarAPI.Controllers
         /// <summary>
         /// Alterar os dados de um perfil
         /// </summary>
+        /// <remarks>
+        /// Exemplo de insersão do campo FOTO:
+        /// "VEVTVEUgRk9UTw=="
+        /// Sempre inserir em formato Base64, pois o .Net converte para VarBinary(tipo que está cadastrado no banco)
+        /// </remarks>
         /// <param name="perfil">Todos as informações do perfil</param>
         /// <param name="id">Id do perfil</param>
         /// <returns>Perfil alterado</returns>
-        [HttpPut("/{id}")]
+        [HttpPut("{id}")]
+
         // O método alterar tem como parametro o id do perfil
         public IActionResult Alterar(int id, Perfil perfil)
         {
@@ -156,12 +162,14 @@ namespace GamersRadarAPI.Controllers
                     conexao.Open();
 
                     // Declara a query
-                    string script = "INSERT INTO Perfil (Biografia, Foto, JogosInteresse, UsuariosId) VALUES (@Biografia, @Foto, @JogosInteresse, @UsuariosId)";
+                    string script = "UPDATE Perfil SET Biografia=@Biografia, Foto=@Foto, JogosInteresse=@JogosInteresse, UsuariosId=@UsuariosId WHERE Id=@id";
 
                     // Cria o comando de execução do banco
                     using (SqlCommand cmd = new SqlCommand(script, conexao))
                     {
                         // Declaração de variável por parâmetro
+                        // Pega o id que está vindo da url
+                        cmd.Parameters.Add("@id", SqlDbType.NVarChar).Value = id;
                         cmd.Parameters.Add("@Biografia", SqlDbType.NVarChar).Value = perfil.Biografia;
                         cmd.Parameters.Add("@Foto", SqlDbType.VarBinary).Value = perfil.Foto;
                         cmd.Parameters.Add("@JogosInteresse", SqlDbType.NVarChar).Value = perfil.JogosInteresse;
