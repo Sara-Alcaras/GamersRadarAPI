@@ -11,7 +11,7 @@ namespace GamersRadarAPI.Models
         [Required(ErrorMessage = "Informe sua Biografia")]
         [MaxLength(900)]
         public string Biografia { get; set; }
-        public byte[] Foto { get; set; }
+        public string Foto { get; set; }
 
         [Required(ErrorMessage = "Informe o jogo de interesse")]
         public string JogosInteresse { get; set; }

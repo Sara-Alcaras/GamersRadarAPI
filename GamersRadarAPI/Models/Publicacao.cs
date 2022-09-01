@@ -12,7 +12,7 @@ namespace GamersRadarAPI.Models
         [Required(ErrorMessage = "Informe sua Descrição")]
         [MaxLength(900)]
         public string Descricao { get; set; }
-        public byte[] ImagemAnexo { get; set; }
+        public string ImagemAnexo { get; set; }
 
         public DateTime DataHora { get; set; }
 

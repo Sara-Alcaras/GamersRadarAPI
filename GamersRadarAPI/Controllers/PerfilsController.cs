@@ -1,5 +1,6 @@
 ﻿using GamersRadarAPI.Models;
 using GamersRadarAPI.Repository;
+using GamersRadarAPI.Utils;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -19,19 +20,30 @@ namespace GamersRadarAPI.Controllers
         /// </summary>
         /// <param name="perfil">Dados do perfil</param>
         /// <returns>Dados do perfil cadastrado</returns>
-        /// <remarks>
-        /// Exemplo de insersão do campo FOTO:
-        /// "VEVTVEUgRk9UTw=="
-        /// Sempre inserir em formato Base64, pois o .Net converte para VarBinary(tipo que está cadastrado no banco)
-        /// </remarks>
         [HttpPost]
 
         // Cria variavel que permite cadastrar perfil
         // ActionResult = Quando vários tipo de retorno são possíveis em uma ação.
-        public IActionResult Cadastrar(Perfil perfil)
+        public IActionResult Cadastrar([FromForm] Perfil perfil, IFormFile arquivo)
         {
             try
             {
+                #region Upload de Imagem
+                //Define os tipos de arquivos que podem ser colocados
+                string[] extensoesPermitidas = { "jpeg", "jpg", "png", "svg" };
+                //Define a pasta onde vai ficar salvo
+                string uploadResultado = Upload.UploadFile(arquivo, extensoesPermitidas, "Images");
+
+                // Se for vazio ou nulo
+                if (uploadResultado == "")
+                {
+                    return BadRequest("Arquivo não encontrado ou extensão não permitida");
+    
+                }
+                perfil.Foto = uploadResultado;
+
+                #endregion
+
                 // Chama a camada de conexão com o banco que está no repositorio
                 repositorio.Insert(perfil);
 
@@ -81,21 +93,31 @@ namespace GamersRadarAPI.Controllers
         /// <summary>
         /// Alterar os dados de um perfil
         /// </summary>
-        /// <remarks>
-        /// Exemplo de insersão do campo FOTO:
-        /// "VEVTVEUgRk9UTw=="
-        /// Sempre inserir em formato Base64, pois o .Net converte para VarBinary(tipo que está cadastrado no banco)
-        /// </remarks>
         /// <param name="perfil">Todos as informações do perfil</param>
         /// <param name="id">Id do perfil</param>
         /// <returns>Perfil alterado</returns>
         [HttpPut("{id}")]
 
         // O método alterar tem como parametro o id do perfil
-        public IActionResult Alterar(int id, Perfil perfil)
+        public IActionResult Alterar(int id, [FromForm] Perfil perfil, IFormFile arquivo)
         {
             try
             {
+                #region Upload de Imagem
+                //Define os tipos de arquivos que podem ser colocados
+                string[] extensoesPermitidas = { "jpeg", "jpg", "png", "svg" };
+                //Define a pasta onde vai ficar salvo
+                string uploadResultado = Upload.UploadFile(arquivo, extensoesPermitidas, "Images");
+
+                // Se for vazio ou nulo
+                if (uploadResultado == "")
+                {
+                    return BadRequest("Arquivo não encontrado ou extensão não permitida");
+
+                }
+                perfil.Foto = uploadResultado;
+
+                #endregion
                 // Cria uma variavel que recebe o metodo listar por id
                 var buscarPerfil = repositorio.GetById(id);
                 // Se buscar perfil nulo

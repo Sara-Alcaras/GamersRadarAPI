@@ -39,9 +39,9 @@ namespace GamersRadarAPI.Repository
                             {
                                 Id = (int)reader[0],
                                 Biografia = (string)reader[1],
-                                Foto = (byte[])reader[2],
-                                JogosInteresse = (string)reader[3],
-                                UsuariosId = (int)reader[4],
+                                JogosInteresse = (string)reader[2],
+                                UsuariosId = (int)reader[3],
+                                Foto = (string)reader[4].ToString(),
                             });
                         }
                     }
@@ -78,7 +78,7 @@ namespace GamersRadarAPI.Repository
 
                             perfil.Id = (int)reader[0];
                             perfil.Biografia = (string)reader[1];
-                            perfil.Foto = (byte[])reader[2];
+                            perfil.Foto = (string)reader[2].ToString();
                             perfil.JogosInteresse = (string)reader[3];
                             
                         }
@@ -105,7 +105,7 @@ namespace GamersRadarAPI.Repository
                 {
                     // Declaração de variável por parâmetro
                     cmd.Parameters.Add("@Biografia", SqlDbType.NVarChar).Value = perfil.Biografia;
-                    cmd.Parameters.Add("@Foto", SqlDbType.VarBinary).Value = perfil.Foto;
+                    cmd.Parameters.Add("@Foto", SqlDbType.NVarChar).Value = perfil.Foto;
                     cmd.Parameters.Add("@JogosInteresse", SqlDbType.NVarChar).Value = perfil.JogosInteresse;
                     cmd.Parameters.Add("@UsuariosId", SqlDbType.Int).Value = perfil.UsuariosId;
 

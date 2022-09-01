@@ -1,5 +1,6 @@
 ﻿using GamersRadarAPI.Models;
 using GamersRadarAPI.Repository;
+using GamersRadarAPI.Utils;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -19,20 +20,31 @@ namespace GamersRadarAPI.Controllers
         /// <summary>
         /// Cadastra uma publicação
         /// </summary>
-        /// <remarks>
-        /// Exemplo de insersão do campo ImagemAnexo:
-        /// "VEVTVEUgRk9UTw=="
-        /// Sempre inserir em formato Base64, pois o.Net converte para VarBinary(tipo que está cadastrado no banco)
-        /// </remarks>
         /// <param name = "publicacao" > Dados da publicação</param>
         [HttpPost]
 
         // Cria variavel que permite cadastrar publicações
         // ActionResult = Quando vários tipo de retorno são possíveis em uma ação.
-        public IActionResult Cadastrar(Publicacao publicacao)
+        public IActionResult Cadastrar([FromForm] Publicacao publicacao, IFormFile arquivo)
         {
             try
             {
+                #region Upload de Imagem
+                //Define os tipos de arquivos que podem ser colocados
+                string[] extensoesPermitidas = { "jpeg", "jpg", "png", "svg" };
+                //Define a pasta onde vai ficar salvo
+                string uploadResultado = Upload.UploadFile(arquivo, extensoesPermitidas, "Images");
+
+                // Se for vazio ou nulo
+                if (uploadResultado == "")
+                {
+                    return BadRequest("Arquivo não encontrado ou extensão não permitida");
+
+                }
+                publicacao.ImagemAnexo = uploadResultado;
+
+                #endregion
+
                 // Chama a camada de conexão com o banco que está no repositorio
                 repositorio.Insert(publicacao);
 
@@ -82,23 +94,34 @@ namespace GamersRadarAPI.Controllers
         /// <summary>
         /// Alterar os dados de uma publicação
         /// </summary>
-        /// <remarks>
-        /// Exemplo de insersão do campo ImagemAnexo:
-        /// "VEVTVEUgRk9UTw=="
-        /// Sempre inserir em formato Base64, pois o.Net converte para VarBinary(tipo que está cadastrado no banco)
-        /// </remarks>
         /// <param name="publicacao">Todos as informações da publicação</param>
         /// <param name="id">Id da publicação</param>
         /// <returns>Publicação alterada</returns>
         [HttpPut("{id}")]
 
         //// O método alterar tem como parametro o id da publicação
-        public IActionResult Alterar(int id, Publicacao publicacao)
+        public IActionResult Alterar(int id, [FromForm] Publicacao publicacao, IFormFile arquivo)
         {
             try
             {
+
+                #region Upload de Imagem
+                //Define os tipos de arquivos que podem ser colocados
+                string[] extensoesPermitidas = { "jpeg", "jpg", "png", "svg" };
+                //Define a pasta onde vai ficar salvo
+                string uploadResultado = Upload.UploadFile(arquivo, extensoesPermitidas, "Images");
+
+                // Se for vazio ou nulo
+                if (uploadResultado == "")
+                {
+                    return BadRequest("Arquivo não encontrado ou extensão não permitida");
+
+                }
+                publicacao.ImagemAnexo = uploadResultado;
+
+                #endregion
                 // Cria uma variavel que recebe o metodo listar por id
-                var buscarPublicacao= repositorio.GetById(id);
+                var buscarPublicacao = repositorio.GetById(id);
                 // Se buscar publicação for nulo
                 if (buscarPublicacao == null)
                 {

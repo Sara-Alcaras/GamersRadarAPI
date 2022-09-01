@@ -40,9 +40,9 @@ namespace GamersRadarAPI.Repository
                             {
                                 Id = (int)reader[0],
                                 Descricao = (string)reader[1],
-                                ImagemAnexo = (byte[])reader[2],
-                                DataHora = (DateTime)reader[3],
-                                PerfilId = (int)reader[4],
+                                DataHora = (DateTime)reader[2],
+                                PerfilId = (int)reader[3],
+                                ImagemAnexo = (string)reader[4].ToString()
                             });
                         }
                     }
@@ -78,7 +78,7 @@ namespace GamersRadarAPI.Repository
                             // Adiciona cada elemento da lista
                             publicacao.Id = (int)reader[0];
                             publicacao.Descricao = (string)reader[1];
-                            publicacao.ImagemAnexo = (byte[])reader[2];
+                            publicacao.ImagemAnexo = (string)reader[2].ToString();
                             publicacao.DataHora = (DateTime)reader[3];
                             publicacao.PerfilId = (int)reader[4];
                       
@@ -106,7 +106,7 @@ namespace GamersRadarAPI.Repository
                 {
                     // Declaração de variável por parâmetro
                     cmd.Parameters.Add("@Descricao", SqlDbType.NVarChar).Value = publicacao.Descricao;
-                    cmd.Parameters.Add("@ImagemAnexo", SqlDbType.VarBinary).Value = publicacao.ImagemAnexo;
+                    cmd.Parameters.Add("@ImagemAnexo", SqlDbType.NVarChar).Value = publicacao.ImagemAnexo;
                     cmd.Parameters.Add("@DataHora", SqlDbType.NVarChar).Value = publicacao.DataHora;
                     cmd.Parameters.Add("@PerfilId", SqlDbType.Int).Value = publicacao.PerfilId;
 
