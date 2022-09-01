@@ -166,7 +166,7 @@ namespace GamersRadarAPI.Repositorie
                 conexao.Open();
 
                 // Declara a query
-                string script = "UPDATE INTO Comentarios (Comentario, DataComentario, PerfilId, PublicacoesId) VALUES (@Comentario, @DataComentario, @PerfilId, @PublicacoesId)";
+                string script = "UPDATE Comentarios SET Comentario=@Comentario, DataComentario=@DataComentario, PerfilId=@PerfilId, PublicacoesId=@PublicacoesId WHERE Id=@id";
 
                 // Cria o comando de execução do banco
                 using (SqlCommand cmd = new SqlCommand(script, conexao))

@@ -65,6 +65,9 @@ namespace GamersRadarAPI.Repository
 
                 using (SqlCommand cmd = new SqlCommand(consulta, conexao))
                 {
+
+                    cmd.Parameters.Add("@id", SqlDbType.NVarChar).Value = id;
+
                     // Ler todos os itens da consulta
                     using (SqlDataReader reader = cmd.ExecuteReader())
                     {
