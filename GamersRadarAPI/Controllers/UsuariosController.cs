@@ -1,4 +1,5 @@
 ﻿using GamersRadarAPI.Models;
+using GamersRadarAPI.Repositorie;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -11,10 +12,7 @@ namespace GamersRadarAPI.Controllers
     [ApiController]
     public class UsuariosController : ControllerBase
     {
-        // Cria variavel de conexão com banco de dados
-        // Readonly = apenas leitura 
-        // String = não pode ser alterada
-        readonly string connectionString = "data source=DESKTOP-EJCPJI1\\SQLEXPRESS;Integrated Security=true;Initial Catalog=GamersRadar;TrustServerCertificate=True;";
+        private UsuarioRepository repositorio = new UsuarioRepository();
 
         // POST - Cadastrar
         /// <summary>
@@ -30,31 +28,8 @@ namespace GamersRadarAPI.Controllers
         {
             try
             {
-                // Utiliza a biblioteca sqlConnection = System.Data.SqlClient
-                // Abre a conexão com o banco de acordo com a connectionString criada
-                using (SqlConnection conexao = new SqlConnection(connectionString))
-                {
-                    // Abre conexão com o banco
-                    conexao.Open();
-
-                    // Declara a query
-                    string script = "INSERT INTO Usuarios (Nome, Email, Senha) VALUES (@Nome, @Email, @Senha)";
-
-                    // Cria o comando de execução do banco
-                    using (SqlCommand cmd = new SqlCommand(script, conexao))
-                    {
-                        // Declaração de variável por parâmetro
-                        cmd.Parameters.Add("@Nome", SqlDbType.NVarChar).Value = usuario.Nome;
-                        cmd.Parameters.Add("@Email", SqlDbType.NVarChar).Value = usuario.Email;
-                        cmd.Parameters.Add("@Senha", SqlDbType.NVarChar).Value = usuario.Senha;
-
-                        // Informa o tipo do comando
-                        cmd.CommandType = CommandType.Text;
-
-                        // Executa a query
-                        cmd.ExecuteNonQuery();
-                    }
-                }
+                // chama a camada de conexão com o banco que está no repositorio
+                repositorio.Insert(usuario);
 
                 // Retorna o usuario cadastrado
                 return Ok(usuario);
@@ -80,39 +55,8 @@ namespace GamersRadarAPI.Controllers
         {
             try
             {
-                // Variavel de listagem de usuários
-                var usuarios = new List<Usuario>();
-
-                // Abre a conexão com o banco de acordo com a connectionString criada
-                using (SqlConnection conexao = new SqlConnection(connectionString))
-                {
-                    // Abre conexão com o banco
-                    conexao.Open();
-
-                    // Seleciona todos os usuários no banco de dados
-                    string consulta = "SELECT * FROM Usuarios";
-
-                    using (SqlCommand cmd = new SqlCommand(consulta, conexao))
-                    {
-                        // Ler todos os itens da consulta
-                        using (SqlDataReader reader = cmd.ExecuteReader())
-                        {
-                            // Enquanto o reader estiver lendo
-                            while (reader.Read())
-                            {
-                                // Adiciona cada elemento da lista
-                                usuarios.Add(new Usuario
-                                {
-                                    Id = (int)reader[0],
-                                    Nome = (string)reader[1],
-                                    Email = (string)reader[2],
-                                    Senha = (string)reader[3],
-                                });
-                            }
-                        }
-                    }
-
-                }
+                // Cria uma variavel que recebe a conexão com o banco
+                var usuarios = repositorio.GetAll();
 
                 // Retorna o usuario cadastrado
                 return Ok(usuarios);
@@ -142,35 +86,19 @@ namespace GamersRadarAPI.Controllers
         {
             try
             {
-                // Utiliza a biblioteca sqlConnection = System.Data.SqlClient
-                // Abre a conexão com o banco de acordo com a connectionString criada
-                using (SqlConnection conexao = new SqlConnection(connectionString))
+                // Cria uma variavel que recebe o metodo listar por id
+               var buscarUsuario = repositorio.GetById(id);
+                // Se buscar usuario for nulo
+                if (buscarUsuario == null)
                 {
-                    // Abre conexão com o banco
-                    conexao.Open();
-
-                    // Declara a query
-                    string script = "UPDATE Usuarios SET Nome=@Nome, Email=@Email, Senha=@Senha WHERE Id=@id";
-
-                    // Cria o comando de execução do banco
-                    using (SqlCommand cmd = new SqlCommand(script, conexao))
-                    {
-                        // Declaração de variável por parâmetro
-                        // Pega o id que está vindo da url
-                        cmd.Parameters.Add("@id", SqlDbType.NVarChar).Value = id;
-                        cmd.Parameters.Add("@Nome", SqlDbType.NVarChar).Value = usuario.Nome;
-                        cmd.Parameters.Add("@Email", SqlDbType.NVarChar).Value = usuario.Email;
-                        cmd.Parameters.Add("@Senha", SqlDbType.NVarChar).Value = usuario.Senha;
-
-                        // Informa o tipo do comando
-                        cmd.CommandType = CommandType.Text;
-
-                        // Executa a query
-                        cmd.ExecuteNonQuery();
-                        usuario.Id = id;
-                    }
+                    // Retorna erro 404 - Não encontrado
+                    return NotFound();
                 }
 
+                // Cria uma variavel que recebe o método de alterar
+                var usuarioAlterado = repositorio.Update(id, usuario);
+
+                // Retorna o usuário alterado com sucesso
                 return Ok(usuario);
 
             }

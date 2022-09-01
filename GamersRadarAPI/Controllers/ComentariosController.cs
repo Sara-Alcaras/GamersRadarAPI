@@ -1,4 +1,5 @@
 ﻿using GamersRadarAPI.Models;
+using GamersRadarAPI.Repositorie;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -12,12 +13,7 @@ namespace GamersRadarAPI.Controllers
     [ApiController]
     public class ComentariosController : ControllerBase
     {
-
-        //Cria variavel de conexão com banco de dados
-        //Readonly = apenas leitura
-        //String = não pode ser alterada
-        readonly string connectionString = "data source=DESKTOP-EJCPJI1\\SQLEXPRESS;Integrated Security=true;Initial Catalog=GamersRadar;TrustServerCertificate=True;";
-
+        private ComentariosRepository repositorio = new ComentariosRepository();
         //POST - Cadastrar
         /// <summary>
         /// Cadastra um comentario
@@ -31,33 +27,8 @@ namespace GamersRadarAPI.Controllers
         {
             try
             {
-                // Utiliza a biblioteca sqlConnection = System.Data.SqlClient
-                // Abre a conexão com o banco de acordo com a connectionString criada
-                using (SqlConnection conexao = new SqlConnection(connectionString))
-                {
-                    // Abre conexão com o banco
-                    conexao.Open();
-
-                    // Declara a query
-                    string script = "INSERT INTO Comentarios (Comentario, DataComentario, PerfilId, PublicacoesId) VALUES (@Comentario, @DataComentario, @PerfilId, @PublicacoesId)";
-
-                    // Cria o comando de execução do banco
-                    using (SqlCommand cmd = new SqlCommand(script, conexao))
-                    {
-                        // Declaração de variável por parâmetro
-                        cmd.Parameters.Add("@Comentario", SqlDbType.NVarChar).Value = comentario.Comentario;
-                        cmd.Parameters.Add("@DataComentario", SqlDbType.DateTime).Value = comentario.DataComentario;
-                        cmd.Parameters.Add("@PerfilId", SqlDbType.Int).Value = comentario.PerfilId;
-                        cmd.Parameters.Add("@PublicacoesId", SqlDbType.Int).Value = comentario.PublicacoesId;
-
-                        // Informa o tipo do comando
-                        cmd.CommandType = CommandType.Text;
-
-                        // Executa a query
-                        cmd.ExecuteNonQuery();
-                    }
-                }
-
+                // chama a camada de conexão com o banco que está no repositorio
+                repositorio.Insert(comentario);
                 // Retorna o comentario cadastrado
                 return Ok(comentario);
             }
@@ -82,40 +53,8 @@ namespace GamersRadarAPI.Controllers
         {
             try
             {
-                // Variavel de listagem de Comentarios
-                var comentario = new List<Comentarios>();
-
-                // Abre a conexão com o banco de acordo com a connectionString criada
-                using (SqlConnection conexao = new SqlConnection(connectionString))
-                {
-                    // Abre conexão com o banco
-                    conexao.Open();
-
-                    // Seleciona todos os usuários no banco de dados
-                    string consulta = "SELECT * FROM Comentarios";
-
-                    using (SqlCommand cmd = new SqlCommand(consulta, conexao))
-                    {
-                        // Ler todos os itens da consulta
-                        using (SqlDataReader reader = cmd.ExecuteReader())
-                        {
-                            // Enquanto o reader estiver lendo
-                            while (reader.Read())
-                            {
-                                // Adiciona cada elemento da lista
-                                comentario.Add(new Comentarios
-                                {
-                                    Id = (int)reader[0],
-                                    Comentario = (string)reader[1],
-                                    DataComentario = (DateTime)reader[2],
-                                    PerfilId = (int)reader[3],
-                                    PublicacoesId = (int)reader[4],
-
-                                });
-                            }
-                        }
-                    }
-                }
+                // Cria uma variavel que recebe a conexão com o banco
+                var comentario = repositorio.GetAll();
 
                 // Retorna o comentario cadastrado
                 return Ok(comentario);
@@ -146,35 +85,16 @@ namespace GamersRadarAPI.Controllers
         {
             try
             {
-                // Utiliza a biblioteca sqlConnection = System.Data.SqlClient
-                // Abre a conexão com o banco de acordo com a connectionString criada
-                using (SqlConnection conexao = new SqlConnection(connectionString))
+                // Cria uma variavel que recebe o metodo listar por id
+                var buscarComentario = repositorio.GetById(id);
+                // Se buscar comentario nulo
+                if (buscarComentario == null)
                 {
-                    // Abre conexão com o banco
-                    conexao.Open();
-
-                    // Declara a query
-                    string script = "UPDATE INTO Comentarios (Comentario, DataComentario, PerfilId, PublicacoesId) VALUES (@Comentario, @DataComentario, @PerfilId, @PublicacoesId)";
-
-                    // Cria o comando de execução do banco
-                    using (SqlCommand cmd = new SqlCommand(script, conexao))
-                    {
-                        // Declaração de variável por parâmetro
-                        cmd.Parameters.Add("@id", SqlDbType.NVarChar).Value = id;
-                        cmd.Parameters.Add("@Comentario", SqlDbType.NVarChar).Value = comentario.Comentario;
-                        cmd.Parameters.Add("@DataComentario", SqlDbType.DateTime).Value = comentario.DataComentario;
-                        cmd.Parameters.Add("@PerfilId", SqlDbType.Int).Value = comentario.PerfilId;
-                        cmd.Parameters.Add("@PublicacoesId", SqlDbType.Int).Value = comentario.PublicacoesId;
-
-                        // Informa o tipo do comando
-                        cmd.CommandType = CommandType.Text;
-
-                        // Executa a query
-                        cmd.ExecuteNonQuery();
-                        comentario.Id = id;
-                    }
+                    // Retorna erro 404 - Não encontrado
+                    return NotFound();
                 }
-
+                // Cria uma variavel que recebe o método de alterar
+                var comentarioAlterado = repositorio.Update(id, comentario);
                 return Ok(comentario);
 
             }
@@ -203,29 +123,17 @@ namespace GamersRadarAPI.Controllers
         {
             try
             {
-                // Utiliza a biblioteca sqlConnection = System.Data.SqlClient
-                // Abre a conexão com o banco de acordo com a connectionString criada
-                using (SqlConnection conexao = new SqlConnection(connectionString))
+                // Cria uma variavel que recebe o metodo listar por id
+                var buscarComentario = repositorio.GetById(id);
+                // Se buscar comentario nulo
+                if (buscarComentario == null)
                 {
-                    // Abre conexão com o banco
-                    conexao.Open();
-
-                    // Declara a query
-                    string script = "DELETE FROM Comentarios WHERE Id=@Id";
-
-                    // Cria o comando de execução do banco
-                    using (SqlCommand cmd = new SqlCommand(script, conexao))
-                    {
-                        // Declaração de variável por parâmetro
-                        cmd.Parameters.Add("@id", SqlDbType.Int).Value = id;
-
-                        // Informa o tipo do comando
-                        cmd.CommandType = CommandType.Text;
-
-                        // Executa a query
-                        cmd.ExecuteNonQuery();
-                    }
+                    // Retorna erro 404 - Não encontrado
+                    return NotFound();
                 }
+
+                // Se for falso exclui
+                repositorio.Delete(id);
 
                 return Ok(new
                 {
@@ -243,6 +151,5 @@ namespace GamersRadarAPI.Controllers
                 });
             }
         }
-
     }
 }
