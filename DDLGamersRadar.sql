@@ -38,7 +38,6 @@ CREATE TABLE Publicacoes
 	Id INT PRIMARY KEY IDENTITY,
 	Descricao NVARCHAR(MAX),
 	ImagemAnexo NVARCHAR(MAX),
-	DataHora DATETIME,
 
 	--DecLaração de FK
 	PerfilId INT

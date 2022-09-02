@@ -14,8 +14,6 @@ namespace GamersRadarAPI.Models
         public string Descricao { get; set; }
         public string ImagemAnexo { get; set; }
 
-        public DateTime DataHora { get; set; }
-
         [Required(ErrorMessage = "Informe o ID do Perfil")]
         public int PerfilId { get; set; }
 

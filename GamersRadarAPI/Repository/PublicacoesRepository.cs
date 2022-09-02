@@ -40,9 +40,8 @@ namespace GamersRadarAPI.Repository
                             {
                                 Id = (int)reader[0],
                                 Descricao = (string)reader[1],
-                                DataHora = (DateTime)reader[2],
-                                PerfilId = (int)reader[3],
-                                ImagemAnexo = (string)reader[4].ToString()
+                                PerfilId = (int)reader[2],
+                                ImagemAnexo = (string)reader[3].ToString()
                             });
                         }
                     }
@@ -78,10 +77,10 @@ namespace GamersRadarAPI.Repository
                             // Adiciona cada elemento da lista
                             publicacao.Id = (int)reader[0];
                             publicacao.Descricao = (string)reader[1];
-                            publicacao.ImagemAnexo = (string)reader[2].ToString();
-                            publicacao.DataHora = (DateTime)reader[3];
-                            publicacao.PerfilId = (int)reader[4];
-                      
+                            publicacao.PerfilId = (int)reader[2];
+                            publicacao.ImagemAnexo = (string)reader[3].ToString();
+
+
                         }
                     }
                 }
@@ -99,7 +98,7 @@ namespace GamersRadarAPI.Repository
                 conexao.Open();
 
                 // Declara a query
-                string script = "INSERT INTO Publicacoes (Descricao, ImagemAnexo, DataHora, PerfilId) VALUES (@Descricao, @ImagemAnexo, @DataHora, @PerfilId)";
+                string script = "INSERT INTO Publicacoes (Descricao, ImagemAnexo, PerfilId) VALUES (@Descricao, @ImagemAnexo, @PerfilId)";
 
                 // Cria o comando de execução do banco
                 using (SqlCommand cmd = new SqlCommand(script, conexao))
@@ -107,7 +106,6 @@ namespace GamersRadarAPI.Repository
                     // Declaração de variável por parâmetro
                     cmd.Parameters.Add("@Descricao", SqlDbType.NVarChar).Value = publicacao.Descricao;
                     cmd.Parameters.Add("@ImagemAnexo", SqlDbType.NVarChar).Value = publicacao.ImagemAnexo;
-                    cmd.Parameters.Add("@DataHora", SqlDbType.NVarChar).Value = publicacao.DataHora;
                     cmd.Parameters.Add("@PerfilId", SqlDbType.Int).Value = publicacao.PerfilId;
 
                     // Informa o tipo do comando
@@ -129,7 +127,7 @@ namespace GamersRadarAPI.Repository
                 conexao.Open();
 
                 // Declara a query
-                string script = "UPDATE Publicacoes SET Descricao=@Descricao, ImagemAnexo=@ImagemAnexo, DataHora=@DataHora, PerfilId=@PerfilId WHERE Id=@id";
+                string script = "UPDATE Publicacoes SET Descricao=@Descricao, ImagemAnexo=@ImagemAnexo, PerfilId=@PerfilId WHERE Id=@id";
 
                 // Cria o comando de execução do banco
                 using (SqlCommand cmd = new SqlCommand(script, conexao))
@@ -139,7 +137,6 @@ namespace GamersRadarAPI.Repository
                     cmd.Parameters.Add("@id", SqlDbType.NVarChar).Value = id;
                     cmd.Parameters.Add("@Descricao", SqlDbType.NVarChar).Value = publicacao.Descricao;
                     cmd.Parameters.Add("@ImagemAnexo", SqlDbType.VarBinary).Value = publicacao.ImagemAnexo;
-                    cmd.Parameters.Add("@DataHora", SqlDbType.NVarChar).Value = publicacao.DataHora;
                     cmd.Parameters.Add("@PerfilId", SqlDbType.Int).Value = publicacao.PerfilId;
 
                     // Informa o tipo do comando
